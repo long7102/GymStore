@@ -5,6 +5,7 @@
   .search-button {
     font-size: 10px;
   }
+  
   .Login-Register a {
     font-size: 10px;
   }
@@ -52,6 +53,9 @@
     display: none !important;
   }
   .mobile-header {
+    display: block;
+  }
+  .video-container{
     display: block;
   }
   .cart-mobile-icon i {
@@ -118,6 +122,10 @@
   .subscribe-head .form-section input[type="email"] {
     width: 100%;
   }
+
+  .video-container{
+    display: block;
+  }
   .subscribe-head .form-section input[type="submit"] {
     width: 100%;
     padding: 0 0;
@@ -155,7 +163,9 @@
   .subscribe-head h2 {
     font-size: 20px;
   }
-
+  .video-container{
+    display: block;
+  }
   .single-image,
   .single-image img {
     height: 200px;
