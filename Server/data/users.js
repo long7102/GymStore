@@ -9,6 +9,13 @@ const users = [
         isAdmin: true,
     },
     {
+        name: "admin",
+        email: "admin@gmail.com",
+        //hash mật khẩu
+        password: bcrypt.hashSync("admin", 14),
+        isAdmin: true,
+    },
+    {
         name: "user",
         email: "user@gmail.com",
         //hash mật khẩu
