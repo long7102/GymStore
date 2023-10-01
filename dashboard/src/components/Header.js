@@ -69,11 +69,6 @@ const Header = () => {
               <i className="fas fa-bell"></i>
             </Link>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="#">
-              English
-            </Link>
-          </li>
           <li className="dropdown nav-item">
             <Link className="dropdown-toggle" data-bs-toggle="dropdown" to="#">
               <img

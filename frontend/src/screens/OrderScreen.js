@@ -21,7 +21,7 @@ const OrderScreen = ({ match }) => {
   const { loading: loadingPay, success: successPay } = orderPay
   if (!loading) {
     const addDecimals = (num) => {
-      return (Math.round(num * 100) / 100).toFixed(3)
+      return (Math.round(num * 100) / 100)
     }
     order.itemsPrice = addDecimals(
       order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
@@ -179,7 +179,7 @@ const OrderScreen = ({ match }) => {
                                   </div>
                                   <div className="mt-3 mt-md-0 col-md-2 col-6 align-items-end  d-flex flex-column justify-content-center ">
                                     <h4>Giá tiền</h4>
-                                    <h6>{(item.qty * item.price).toFixed(3)} VNĐ</h6>
+                                    <h6>{(item.qty * item.price)} VNĐ</h6>
                                   </div>
                                 </div>
                               )
@@ -203,13 +203,13 @@ const OrderScreen = ({ match }) => {
                           <td>
                             <strong>Phí vận chuyển</strong>
                           </td>
-                          <td>{order.shippingPrice.toFixed(3)} VNĐ</td>
+                          <td>{order.shippingPrice} VNĐ</td>
                         </tr>
                         <tr>
                           <td>
                             <strong>Tổng</strong>
                           </td>
-                          <td>{order.totalPrice.toFixed(3)}VNĐ</td>
+                          <td>{order.totalPrice}VNĐ</td>
                         </tr>
                       </tbody>
                     </table>

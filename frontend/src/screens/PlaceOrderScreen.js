@@ -15,15 +15,15 @@ const PlaceOrderScreen = ({history}) => {
   const { userInfo } = userLogin
   //tính giá
   const addDecimals = (num) => {
-    return(Math.round(num * 100) / 100).toFixed(3)
+    return(Math.round(num * 100) / 100)
   }
   cart.itemsPrice = addDecimals(
     cart.cartItems.reduce((acc,item) => acc+ item.price * item.qty, 0)
   )
-  cart.shippingPrice = addDecimals(cart.itemPrice > 70 ? 0 : 70)
+  cart.shippingPrice = addDecimals(cart.itemPrice > 70000 ? 0 : 70000)
   cart.totalPrice = (
     Number(cart.itemsPrice) + Number(cart.shippingPrice)
-  ).toFixed(3)
+  )
   const orderCreate = useSelector((state) => state.orderCreate )
   const {order, success, error} = orderCreate
 

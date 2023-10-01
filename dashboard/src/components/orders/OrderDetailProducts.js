@@ -1,7 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const OrderDetailProducts = () => {
+const OrderDetailProducts = (props) => {
+  const {order, loading} = props
+
+  if(!loading){
+    const addDecimals = (num) => {
+      return (Math.round(num * 100) /100)
+    }
+    order.itemPrice = addDecimals(
+      order.orderItems.reduce((acc,item ) => acc + item.price * item.qty, 0)
+    )
+  }
   return (
     <table className="table border table-lg">
       <thead>
@@ -15,48 +25,61 @@ const OrderDetailProducts = () => {
         </tr>
       </thead>
       <tbody>
-        <tr>
+      {
+      order.orderItems.map((item, index) =>(
+      <tr key={index}>
           <td>
             <Link className="itemside" to="#">
               <div className="left">
                 <img
-                  src="/images/3.png"
-                  alt="product"
+                  src={item.image}
+                  alt={item.name}
                   style={{ width: "40px", height: "40px" }}
                   className="img-xs"
                 />
               </div>
               <div className="info">
-                Velcro Sneakers For Boys & Girls (Blue){" "}
+                {item.name}
               </div>
             </Link>
           </td>
-          <td>$586 </td>
-          <td>3 </td>
-          <td className="text-end"> $2534</td>
-        </tr>
+          <td>{item.price} VNĐ </td>
+          <td>{item.qty} </td>
+          <td className="text-end">{(item.qty * item.price)} VNĐ</td>
+        </tr>))
+      }
+        
 
         <tr>
           <td colSpan="4">
             <article className="float-end">
               <dl className="dlist">
-                <dt>Subtotal:</dt> <dd>$3,556</dd>
+                <dt>Tổng:</dt> <dd>{order.itemPrice} VNĐ</dd>
               </dl>
               <dl className="dlist">
-                <dt>Giá vận chuyển:</dt> <dd>$56,907</dd>
+                <dt>Giá vận chuyển:</dt> <dd>{order.shippingPrice} VNĐ</dd>
               </dl>
               <dl className="dlist">
                 <dt>Tổng:</dt>
                 <dd>
-                  <b className="h5">$2,345</b>
+                  <b className="h5">{order.totalPrice} VNĐ</b>
                 </dd>
               </dl>
               <dl className="dlist">
-                <dt className="text-muted">Trnsgj thái:</dt>
+                <dt className="text-muted">Trạng thái:</dt>
                 <dd>
-                  <span className="badge rounded-pill alert alert-success text-success">
+                {
+                order.isPaid ? (
+                <span className="badge rounded-pill alert alert-success text-success">
                     Thanh toán thành công
                   </span>
+                ) :(
+                  <span className="badge rounded-pill alert alert-danger text-success">
+                    Chưa thanh toán
+                  </span>
+  )
+                }
+                  
                 </dd>
               </dl>
             </article>

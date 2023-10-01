@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import moment from 'moment'
 
-const Orders = () => {
+const Orders = (props) => {
+  const {orders} = props
   return (
     <table className="table">
       <thead>
@@ -18,29 +20,52 @@ const Orders = () => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>
-            <b>Women Red Heels Sandal</b>
-          </td>
-          <td>user@example.com</td>
-          <td>$45,789</td>
-          <td>
-            <span className="badge rounded-pill alert-success">
-              Paid At Today 23:56 AM
-            </span>
-          </td>
-          <td>Dec 12 2021</td>
-          <td>
-            <span className="badge btn-success">Delivered</span>
-          </td>
-          <td className="d-flex justify-content-end align-item-center">
-            <Link to={`/order`} className="text-success">
-              <i className="fas fa-eye"></i>
-            </Link>
-          </td>
-        </tr>
+        {orders.map((order) => (
+            <tr key={order._id}>
+            <td>
+              <b>{order.user.name}</b>
+            </td>
+            <td>{order.user.email}</td>
+            <td>{order.totalPrice} VNĐ</td>
+            <td>
+              {
+                order.isPaid ? (
+                  <span className="badge rounded-pill alert-success">
+                  Thanh toán vào {moment(order.paidAt).format("Do MMM YY")}
+                </span>
+                )
+                :
+                (
+                  <span className="badge rounded-pill alert-danger">
+                  Chưa thanh toán
+                </span>
+                )
+              }
+            </td>
+            <td>{moment(order.createdAt).format("Do MMM YY")}</td>
+            <td>
+            {
+                order.isDelivered ? (
+                  <span className="badge btn-success">Đã nhận hàng</span>
+
+                )
+                :
+                (
+                  <span className="badge btn-danger">Chưa nhận hàng</span>
+                )
+              }
+            </td>
+            <td className="d-flex justify-content-end align-item-center">
+              <Link to={`/order/${order._id}`} className="text-success">
+                <i className="fas fa-eye"></i>
+              </Link>
+            </td>
+          </tr>
+          ))
+        }
+
         {/* Not paid Not delivered */}
-        <tr>
+        {/* <tr>
           <td>
             <b>Velcro Sneakers For Boys & Girls (Blue)</b>
           </td>
@@ -58,7 +83,7 @@ const Orders = () => {
               <i className="fas fa-eye"></i>
             </Link>
           </td>
-        </tr>
+        </tr> */}
       </tbody>
     </table>
   );

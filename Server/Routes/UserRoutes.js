@@ -2,7 +2,7 @@ import express from 'express'
 import asyncHandler from 'express-async-handler'
 import User from '../Models/UserModel.js'
 import generateToken from '../Utils/generateToken.js'
-import protect from '../Middleware/AuthMiddleware.js'
+import { protect, admin } from '../Middleware/AuthMiddleware.js'
 const userRouter = express.Router()
 
 //Đăng nhập
@@ -105,4 +105,10 @@ userRouter.put("/profile", protect,
         }
     }
 ))
+
+//Lấy tất cả người dùng - admin
+userRouter.get("/", protect, admin, asyncHandler(async(req, res) => {
+    const users = await User.find({})
+    res.json(users)
+}))
 export default userRouter

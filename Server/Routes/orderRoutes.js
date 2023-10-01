@@ -1,6 +1,6 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
-import protect from "../Middleware/AuthMiddleware.js"
+import { protect, admin } from "../Middleware/AuthMiddleware.js"
 import Order from './../Models/OrderModel.js'
 
 const orderRouter = express.Router()
@@ -36,6 +36,14 @@ orderRouter.post("/", protect, asyncHandler(async (req, res) => {
     }
 }))
 
+// đơn hàng đang chờ -admin
+orderRouter.get("/all", protect, admin, asyncHandler(async (req, res) => {
+    const orders = await Order.find({}).sort({ _id: -1 }).populate("user", "id name email");
+        res.json(orders)
+}))
+
+
+
 // đơn hàng đang chờ
 orderRouter.get("/", protect, asyncHandler(async (req, res) => {
     const order = await Order.find({user: req.user._id}).sort({_id: -1})
@@ -58,7 +66,7 @@ orderRouter.get("/:id", protect, asyncHandler(async (req, res) => {
 }))
 
 // thanh toán đơn hàng
-orderRouter.get("/:id/pay", protect, asyncHandler(async (req, res) => {
+orderRouter.put("/:id/pay", protect, asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id)
     if (order) {
         order.isPaid = true
@@ -70,6 +78,22 @@ orderRouter.get("/:id/pay", protect, asyncHandler(async (req, res) => {
             phone: req.body.phone,
             email_address: req.body.email_address
         }
+        const updateOrder = await order.save()
+        res.json(updateOrder)
+    }
+    else {
+    res.status(404)
+    throw new Error("Không tìm thấy đơn hàng")
+    }
+}))
+
+
+//vận chuyển đơn hàng
+orderRouter.put("/:id/delivered", protect, admin, asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id)
+    if (order) {
+        order.isDelivered = true
+        order.deliveredAt = Date.now()
         const updateOrder = await order.save()
         res.json(updateOrder)
     }
